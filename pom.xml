@@ -11,6 +11,7 @@
 	<groupId>com.yeditepe</groupId>
 	<artifactId>EventPlanner</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
 	<name>EventPlanner</name>
 	<description>EventPlanner</description>
 	<url/>
@@ -30,6 +31,16 @@
 		<java.version>17</java.version>
 		<spring-cloud.version>2025.1.0</spring-cloud.version>
 	</properties>
+	<modules>
+		<module>discovery-server</module>
+		<module>api-gateway</module>
+		<module>config-server</module>
+		<module>user-service</module>
+		<module>event-service</module>
+		<module>booking-service</module>
+		<module>payment-service</module>
+		<module>notification-service</module>
+	</modules>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
