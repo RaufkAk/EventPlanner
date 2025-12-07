@@ -6,23 +6,22 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="user-service" />
-        <module name="payment-service" />
-        <module name="event-service" />
-        <module name="notification-service" />
-        <module name="booking-service" />
       </profile>
-      <profile name="Annotation profile for config-server" enabled="true">
+      <profile name="Annotation profile for EventPlanner" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
         </processorPath>
-        <module name="api-gateway" />
         <module name="config-server" />
         <module name="discovery-server" />
+        <module name="payment-service" />
+        <module name="event-service" />
+        <module name="booking-service" />
+        <module name="api-gateway" />
+        <module name="user-service" />
+        <module name="notification-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -38,6 +37,7 @@
       <module name="BookingService" options="-parameters" />
       <module name="EurekaServer" options="-parameters" />
       <module name="EventCatalogService" options="-parameters" />
+      <module name="EventPlanner" options="-parameters" />
       <module name="NotificationService" options="-parameters" />
       <module name="PaymentService" options="-parameters" />
       <module name="api-gateway" options="-parameters" />
