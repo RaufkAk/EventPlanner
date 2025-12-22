@@ -5,65 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5fd1fe2f-094c-43c9-9725-21025978b231" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BookingService/.gitattributes" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BookingService/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BookingService/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BookingService/mvnw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BookingService/mvnw.cmd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BookingService/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BookingService/src/main/java/com/yeditepe/bookingservice/BookingServiceApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BookingService/src/main/java/com/yeditepe/bookingservice/ServletInitializer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BookingService/src/main/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BookingService/src/test/java/com/yeditepe/bookingservice/BookingServiceApplicationTests.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/EventCatalogService/.gitattributes" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/EventCatalogService/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/EventCatalogService/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/EventCatalogService/mvnw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/EventCatalogService/mvnw.cmd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/EventCatalogService/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/EventCatalogService/src/main/java/com/yeditepe/eventcatalogservice/EventCatalogServiceApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/EventCatalogService/src/main/java/com/yeditepe/eventcatalogservice/ServletInitializer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/EventCatalogService/src/main/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/EventCatalogService/src/test/java/com/yeditepe/eventcatalogservice/EventCatalogServiceApplicationTests.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NotificationService/.gitattributes" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NotificationService/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NotificationService/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NotificationService/mvnw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NotificationService/mvnw.cmd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NotificationService/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NotificationService/src/main/java/com/yeditepe/notificationservice/NotificationServiceApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NotificationService/src/main/java/com/yeditepe/notificationservice/ServletInitializer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NotificationService/src/main/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NotificationService/src/test/java/com/yeditepe/notificationservice/NotificationServiceApplicationTests.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PaymentService/.gitattributes" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PaymentService/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PaymentService/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PaymentService/mvnw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PaymentService/mvnw.cmd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PaymentService/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PaymentService/src/main/java/com/yeditepe/paymentservice/PaymentServiceApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PaymentService/src/main/java/com/yeditepe/paymentservice/ServletInitializer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PaymentService/src/main/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PaymentService/src/test/java/com/yeditepe/paymentservice/PaymentServiceApplicationTests.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserService/.gitattributes" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserService/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserService/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserService/mvnw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserService/mvnw.cmd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserService/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserService/src/main/java/com/yeditepe/userservice/ServletInitializer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserService/src/main/java/com/yeditepe/userservice/UserServiceApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserService/src/main/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserService/src/test/java/com/yeditepe/userservice/UserServiceApplicationTests.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/yeditepe/eventplanner/EventPlannerApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/yeditepe/eventplanner/EventPlannerApplicationTests.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,6 +13,11 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="booking-service" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -112,7 +59,6 @@
     "RunOnceActivity.git.unshallow": "true",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultAutoModeForALLUsers.v1": "true",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "main",
     "junie.onboarding.icon.badge.shown": "true",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
@@ -229,6 +175,13 @@
       <workItem from="1764653607784" duration="4000" />
       <workItem from="1764676622363" duration="602000" />
       <workItem from="1765051930804" duration="3799000" />
+      <workItem from="1765094717235" duration="147000" />
+      <workItem from="1765111318312" duration="1402000" />
+      <workItem from="1765129205483" duration="147000" />
+      <workItem from="1765131769314" duration="1901000" />
+      <workItem from="1765184318263" duration="1788000" />
+      <workItem from="1765736096364" duration="33000" />
+      <workItem from="1765779295961" duration="2619000" />
     </task>
     <servers />
   </component>
