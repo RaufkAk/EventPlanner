@@ -39,7 +39,7 @@ public class EventController {
                 eventService.getAllEvents(category, venue, from, to);
         return ResponseEntity.ok(events);
     }
-
+//ab5566
     // GET /events/{id}
     @GetMapping("/{id}")
     public ResponseEntity<EventResponse> getEventById(@PathVariable String id) {
