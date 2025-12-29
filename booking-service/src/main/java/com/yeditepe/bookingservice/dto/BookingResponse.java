@@ -1,5 +1,6 @@
 package com.yeditepe.bookingservice.dto;
 
+import com.yeditepe.bookingservice.entity.BookingStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,6 +14,6 @@ public class BookingResponse {
     private Long id;
     private Long userId;
     private String eventId;
-    private String status;
+    private BookingStatus status;
     private LocalDateTime bookingDate;
 }

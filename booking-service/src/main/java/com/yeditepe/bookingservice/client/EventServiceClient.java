@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 public interface EventServiceClient {
     @GetMapping("/api/events/{id}/stock")
     EventStockResponse checkStock(@PathVariable("id") String eventId);
-    @PutMapping("/api/events/{id}/reserve")
-    Boolean reserveSeat(@PathVariable("id") String eventId);
     @PutMapping("/api/events/{id}/release")
     Boolean releaseSeat(@PathVariable("id") String eventId);
 }
