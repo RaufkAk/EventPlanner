@@ -1,17 +1,9 @@
 package com.yeditepe.config;
 
-
-import com.netflix.discovery.shared.transport.jersey3.Jersey3TransportClientFactories;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
-@Configuration
+/**
+ * Placeholder removed Jersey3-specific configuration.
+ * Eureka client is provided by Spring Cloud starter.
+ */
 public class EurekaJerseyConfig {
-
-    @Bean
-    public Jersey3TransportClientFactories jersey3TransportClientFactories() {
-        return new Jersey3TransportClientFactories();
-    }
-
 
 }
