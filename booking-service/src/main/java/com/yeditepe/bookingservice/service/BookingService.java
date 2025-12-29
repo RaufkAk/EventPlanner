@@ -3,8 +3,13 @@ package com.yeditepe.bookingservice.service;
 import com.yeditepe.bookingservice.client.EventServiceClient;
 import com.yeditepe.bookingservice.client.PaymentServiceClient;
 import com.yeditepe.bookingservice.client.UserServiceClient;
-import com.yeditepe.bookingservice.dto.*;
+import com.yeditepe.bookingservice.dto.BookingRequest;
+import com.yeditepe.bookingservice.dto.BookingResponse;
+import com.yeditepe.bookingservice.dto.EventStockResponse;
+import com.yeditepe.bookingservice.dto.PaymentRequest;
+import com.yeditepe.bookingservice.dto.PaymentResponse;
 import com.yeditepe.bookingservice.entity.Booking;
+import com.yeditepe.bookingservice.entity.BookingStatus;
 import com.yeditepe.bookingservice.event.BookingCreatedEvent;
 import com.yeditepe.bookingservice.messaging.BookingEventPublisher;
 import com.yeditepe.bookingservice.repository.BookingRepository;
@@ -67,7 +72,7 @@ public class BookingService {
         Booking booking = new Booking();
         booking.setUserId(request.getUserId());
         booking.setEventId(request.getEventId());
-        booking.setStatus("PENDING");
+        booking.setStatus(BookingStatus.PENDING);
         booking.setBookingDate(LocalDateTime.now());
 
         Booking savedBooking = bookingRepository.save(booking);
@@ -90,14 +95,14 @@ public class BookingService {
             throw new RuntimeException("Payment service unavailable");
         }
 
-        savedBooking.setStatus("CONFIRMED");
+        savedBooking.setStatus(BookingStatus.CONFIRMED);
         savedBooking = bookingRepository.save(savedBooking);
 
         BookingCreatedEvent event = new BookingCreatedEvent(
             savedBooking.getId(),
             savedBooking.getUserId(),
             savedBooking.getEventId(),
-            savedBooking.getStatus(),
+            savedBooking.getStatus().name(),
             savedBooking.getBookingDate()
         );
         eventPublisher.publishBookingCreatedEvent(event);
@@ -111,7 +116,7 @@ public class BookingService {
         log.warn("Rolling back booking: {}", booking.getId());
         try {
             eventServiceClient.releaseSeat(booking.getEventId());
-            booking.setStatus("CANCELLED");
+            booking.setStatus(BookingStatus.CANCELLED);
             bookingRepository.save(booking);
             log.info("Booking rollback completed: {}", booking.getId());
         } catch (Exception e) {
@@ -143,7 +148,7 @@ public class BookingService {
     public BookingResponse confirmBooking(Long id) {
         Booking booking = bookingRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Booking not found with id: " + id));
-        booking.setStatus("CONFIRMED");
+        booking.setStatus(BookingStatus.CONFIRMED);
         Booking updatedBooking = bookingRepository.save(booking);
         
         return mapToResponse(updatedBooking);
@@ -153,7 +158,7 @@ public class BookingService {
     public BookingResponse cancelBooking(Long id) {
         Booking booking = bookingRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Booking not found with id: " + id));
-        booking.setStatus("CANCELLED");
+        booking.setStatus(BookingStatus.CANCELLED);
         Booking updatedBooking = bookingRepository.save(booking);
         
         return mapToResponse(updatedBooking);

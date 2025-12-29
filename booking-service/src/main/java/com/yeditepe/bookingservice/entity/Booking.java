@@ -1,6 +1,14 @@
 package com.yeditepe.bookingservice.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,8 +32,9 @@ public class Booking {
     @Column(name = "event_id", nullable = false)
     private String eventId;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String status; // PENDING, CONFIRMED, CANCELLED
+    private BookingStatus status; // PENDING, CONFIRMED, CANCELLED
 
     @Column(name = "booking_date", nullable = false)
     private LocalDateTime bookingDate;
@@ -36,7 +45,7 @@ public class Booking {
             bookingDate = LocalDateTime.now();
         }
         if (status == null) {
-            status = "PENDING";
+            status = BookingStatus.PENDING;
         }
     }
 }
