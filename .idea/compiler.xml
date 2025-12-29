@@ -28,6 +28,7 @@
       <module name="BookingService" target="21" />
       <module name="EurekaServer" target="21" />
       <module name="EventCatalogService" target="21" />
+      <module name="EventPlanner" target="17" />
       <module name="NotificationService" target="21" />
       <module name="PaymentService" target="21" />
     </bytecodeTargetLevel>
