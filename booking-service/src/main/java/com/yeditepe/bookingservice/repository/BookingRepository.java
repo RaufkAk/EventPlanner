@@ -12,7 +12,7 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
 
     List<Booking> findByEventId(String eventId);
 
-    List<Booking> findByStatus(String status);
+    List<Booking> findByStatus(com.yeditepe.bookingservice.entity.BookingStatus status);
 
-    List<Booking> findByUserIdAndStatus(Long userId, String status);
+    List<Booking> findByUserIdAndStatus(Long userId, com.yeditepe.bookingservice.entity.BookingStatus status);
 }
