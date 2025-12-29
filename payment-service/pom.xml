@@ -6,6 +6,7 @@
         <groupId>com.yeditepe</groupId>
         <artifactId>EventPlanner</artifactId>
         <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <groupId>com.yeditepe</groupId>
     <artifactId>payment-service</artifactId>
@@ -40,7 +41,6 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.33</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
