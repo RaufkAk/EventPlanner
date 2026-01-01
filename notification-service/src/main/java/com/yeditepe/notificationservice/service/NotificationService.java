@@ -35,7 +35,7 @@ public class NotificationService {
 
             // Başarılı log kaydet
             NotificationLog successLog = NotificationLog.success(
-                    event.getBookingId(),
+                    Long.parseLong(event.getBookingId()),
                     event.getUserEmail(),
                     subject,
                     "Booking confirmation email sent successfully"
@@ -48,13 +48,17 @@ public class NotificationService {
             // Hata durumunda log kaydet
             log.error("Failed to send notification: {}", e.getMessage(), e);
 
-            NotificationLog failureLog = NotificationLog.failure(
-                    event.getBookingId(),
-                    event.getUserEmail(),
-                    subject,
-                    e.getMessage()
-            );
-            notificationLogRepository.save(failureLog);
+            try {
+                NotificationLog failureLog = NotificationLog.failure(
+                        Long.parseLong(event.getBookingId()),
+                        event.getUserEmail(),
+                        subject,
+                        e.getMessage()
+                );
+                notificationLogRepository.save(failureLog);
+            } catch (NumberFormatException nfe) {
+                log.error("Invalid bookingId format: {}", event.getBookingId());
+            }
 
             // Exception'ı tekrar fırlat (RabbitMQ retry mekanizması için)
             throw new RuntimeException("Notification processing failed", e);

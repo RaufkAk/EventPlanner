@@ -26,8 +26,11 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException {
+    protected void doFilterInternal(
+            jakarta.servlet.http.HttpServletRequest request, 
+            jakarta.servlet.http.HttpServletResponse response, 
+            jakarta.servlet.FilterChain filterChain)
+            throws jakarta.servlet.ServletException, java.io.IOException {
         try {
             String header = request.getHeader("Authorization");
             String token = null;
@@ -40,11 +43,11 @@ public class AuthTokenFilter extends OncePerRequestFilter {
                 System.out.println("AuthTokenFilter: tokenPresent=true valid=" + valid);
                 if (valid) {
                     String username = jwtUtils.getUserNameFromJwtToken(token);
-                UserDetails userDetails = userService.loadUserByUsername(username);
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                        userDetails, null, userDetails.getAuthorities());
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+                    UserDetails userDetails = userService.loadUserByUsername(username);
+                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                            userDetails, null, userDetails.getAuthorities());
+                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
             }
         } catch (Exception ex) {

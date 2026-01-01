@@ -37,7 +37,7 @@ public class EventController {
             LocalDateTime to) {
 
         List<EventResponse> events =
-                eventService.getAllEvents(category, venue, from, to);
+                eventService.getAllEvents();
         return ResponseEntity.ok(events);
     }
 //ab5566

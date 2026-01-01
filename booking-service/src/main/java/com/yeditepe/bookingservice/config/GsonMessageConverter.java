@@ -30,6 +30,6 @@ public class GsonMessageConverter implements MessageConverter {
     @Override
     public Object fromMessage(Message message) throws MessageConversionException {
         String json = new String(message.getBody(), StandardCharsets.UTF_8);
-        return json; // ⚠️ TYPE BİLGİSİ YOK
+        return json;
     }
 }

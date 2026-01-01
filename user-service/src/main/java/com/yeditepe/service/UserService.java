@@ -35,7 +35,7 @@ public class UserService {
         return org.springframework.security.core.userdetails.User.builder()
                 .username(user.getUsername())
                 .password(user.getPassword())
-                .authorities(user.getRoles().stream().map(role -> role.name()).toArray(String[]::new))
+                .authorities(user.getRoles().stream().map(role -> "ROLE_" + role).toArray(String[]::new))
                 .build();
     }
 

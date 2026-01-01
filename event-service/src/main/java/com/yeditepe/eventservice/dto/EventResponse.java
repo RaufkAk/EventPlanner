@@ -1,39 +1,26 @@
 package com.yeditepe.eventservice.dto;
 
-
-
 import java.time.LocalDateTime;
+import java.math.BigDecimal;
 
 public class EventResponse {
 
     private String id;
     private String title;
-    private String category;
-    private String venue;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
-    private Integer capacity;
+    private LocalDateTime date;
+    private Integer availableSeats;
+    private BigDecimal price;
 
     public EventResponse() {
     }
 
-    public EventResponse(String id,
-                         String title,
-                         String category,
-                         String venue,
-                         LocalDateTime startTime,
-                         LocalDateTime endTime,
-                         Integer capacity) {
+    public EventResponse(String id, String title, LocalDateTime date, Integer availableSeats, BigDecimal price) {
         this.id = id;
         this.title = title;
-        this.category = category;
-        this.venue = venue;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.capacity = capacity;
+        this.date = date;
+        this.availableSeats = availableSeats;
+        this.price = price;
     }
-
-    // Getters & Setters
 
     public String getId() {
         return id;
@@ -51,43 +38,27 @@ public class EventResponse {
         this.title = title;
     }
 
-    public String getCategory() {
-        return category;
+    public LocalDateTime getDate() {
+        return date;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setDate(LocalDateTime date) {
+        this.date = date;
     }
 
-    public String getVenue() {
-        return venue;
+    public Integer getAvailableSeats() {
+        return availableSeats;
     }
 
-    public void setVenue(String venue) {
-        this.venue = venue;
+    public void setAvailableSeats(Integer availableSeats) {
+        this.availableSeats = availableSeats;
     }
 
-    public LocalDateTime getStartTime() {
-        return startTime;
+    public BigDecimal getPrice() {
+        return price;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
-        this.startTime = startTime;
-    }
-
-    public LocalDateTime getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(LocalDateTime endTime) {
-        this.endTime = endTime;
-    }
-
-    public Integer getCapacity() {
-        return capacity;
-    }
-
-    public void setCapacity(Integer capacity) {
-        this.capacity = capacity;
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 }

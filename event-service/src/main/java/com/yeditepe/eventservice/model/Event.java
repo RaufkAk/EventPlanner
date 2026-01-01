@@ -1,53 +1,38 @@
 package com.yeditepe.eventservice.model;
 
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
-
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.math.BigDecimal;
 
-@Document(collection = "events")
+@Entity
+@Table(name = "events")
 public class Event {
 
     @Id
     private String id;
 
+    @Column(name = "title")
     private String title;
 
-    private String category;
+    @Column(name = "date")
+    private LocalDateTime date;
 
-    @Field("venue")
-    private String venue;
-
-    @Field("start_time")
-    private LocalDateTime startTime;
-
-    @Field("end_time")
-    private LocalDateTime endTime;
-
-    private Integer capacity;
-
-    @Field("available_seats")
+    @Column(name = "available_seats")
     private Integer availableSeats;
+
+    @Column(name = "price")
+    private BigDecimal price;
 
     public Event() {
     }
 
-    public Event(String id,
-                 String title,
-                 String category,
-                 String venue,
-                 LocalDateTime startTime,
-                 LocalDateTime endTime,
-                 Integer capacity) {
+    public Event(String id, String title, LocalDateTime date, Integer availableSeats, BigDecimal price) {
         this.id = id;
         this.title = title;
-        this.category = category;
-        this.venue = venue;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.capacity = capacity;
+        this.date = date;
+        this.availableSeats = availableSeats;
+        this.price = price;
     }
 
     // Getters & Setters
@@ -68,44 +53,12 @@ public class Event {
         this.title = title;
     }
 
-    public String getCategory() {
-        return category;
+    public LocalDateTime getDate() {
+        return date;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public String getVenue() {
-        return venue;
-    }
-
-    public void setVenue(String venue) {
-        this.venue = venue;
-    }
-
-    public LocalDateTime getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(LocalDateTime startTime) {
-        this.startTime = startTime;
-    }
-
-    public LocalDateTime getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(LocalDateTime endTime) {
-        this.endTime = endTime;
-    }
-
-    public Integer getCapacity() {
-        return capacity;
-    }
-
-    public void setCapacity(Integer capacity) {
-        this.capacity = capacity;
+    public void setDate(LocalDateTime date) {
+        this.date = date;
     }
 
     public Integer getAvailableSeats() {
@@ -114,5 +67,13 @@ public class Event {
 
     public void setAvailableSeats(Integer availableSeats) {
         this.availableSeats = availableSeats;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 }

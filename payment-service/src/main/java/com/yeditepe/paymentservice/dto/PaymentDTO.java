@@ -18,8 +18,8 @@ public class PaymentDTO {
     private Long id;
     private Long bookingId;
     private BigDecimal amount;
-    private PaymentStatus status;
-    private PaymentMethod paymentMethod;
+    private String status;  // Return status as String for client compatibility
+    private String paymentMethod;
     private String transactionId;
     private LocalDateTime paymentDate;
     private LocalDateTime createdAt;

@@ -27,10 +27,10 @@ public class UserServiceClientImpl implements UserServiceClient {
         if (authorizationHeader != null) {
             headers.set("Authorization", authorizationHeader);
         }
-        HttpEntity<Void> entity = new HttpEntity<>(headers);
+        HttpEntity<Void> entity = new HttpEntity<>(null, headers);
         ResponseEntity<Boolean> resp = restTemplate.exchange(
                 userBaseUrl + "/api/users/{id}/validate",
-                HttpMethod.GET,
+                org.springframework.http.HttpMethod.GET,
                 entity,
                 Boolean.class,
                 userId

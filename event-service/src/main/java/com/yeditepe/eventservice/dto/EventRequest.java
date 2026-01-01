@@ -1,12 +1,11 @@
 package com.yeditepe.eventservice.dto;
 
-
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-
 import java.time.LocalDateTime;
+import java.math.BigDecimal;
 
 public class EventRequest {
 
@@ -14,23 +13,16 @@ public class EventRequest {
     @Size(max = 255)
     private String title;
 
-    @NotBlank
-    @Size(max = 50)
-    private String category;
-
-    @NotBlank
-    @Size(max = 255)
-    private String venue;
-
     @NotNull
-    private LocalDateTime startTime;
-
-    @NotNull
-    private LocalDateTime endTime;
+    private LocalDateTime date;
 
     @NotNull
     @Min(1)
-    private Integer capacity;
+    private Integer availableSeats;
+
+    @NotNull
+    @Min(0)
+    private BigDecimal price;
 
     public EventRequest() {
     }
@@ -43,43 +35,27 @@ public class EventRequest {
         this.title = title;
     }
 
-    public String getCategory() {
-        return category;
+    public LocalDateTime getDate() {
+        return date;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setDate(LocalDateTime date) {
+        this.date = date;
     }
 
-    public String getVenue() {
-        return venue;
+    public Integer getAvailableSeats() {
+        return availableSeats;
     }
 
-    public void setVenue(String venue) {
-        this.venue = venue;
+    public void setAvailableSeats(Integer availableSeats) {
+        this.availableSeats = availableSeats;
     }
 
-    public LocalDateTime getStartTime() {
-        return startTime;
+    public BigDecimal getPrice() {
+        return price;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
-        this.startTime = startTime;
-    }
-
-    public LocalDateTime getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(LocalDateTime endTime) {
-        this.endTime = endTime;
-    }
-
-    public Integer getCapacity() {
-        return capacity;
-    }
-
-    public void setCapacity(Integer capacity) {
-        this.capacity = capacity;
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 }

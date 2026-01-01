@@ -4,14 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.annotation.Id;
 
-import java.time.LocalDateTime;
-
-/**
- * MongoDB'de saklanacak bildirim kayıtları
- */
 @Document(collection = "notification_logs")
 @Data
 @NoArgsConstructor
@@ -22,35 +17,29 @@ public class NotificationLog {
     @Id
     private String id;
 
-    private String bookingId;
-    private String recipientEmail;
-    private String subject;
-    private String message;
-    private String status; // SENT, FAILED
-    private LocalDateTime sentAt;
-    private String errorMessage;
+    private Long bookingId;
 
-    // Factory method for successful notification
-    public static NotificationLog success(String bookingId, String email, String subject, String message) {
+    private String recipient;
+
+    private String message;
+
+    private String status;
+
+    public static NotificationLog success(Long bookingId, String recipient, String subject, String message) {
         return NotificationLog.builder()
                 .bookingId(bookingId)
-                .recipientEmail(email)
-                .subject(subject)
-                .message(message)
-                .status("SENT")
-                .sentAt(LocalDateTime.now())
+                .recipient(recipient)
+                .message(subject + " - " + message)
+                .status("SUCCESS")
                 .build();
     }
 
-    // Factory method for failed notification
-    public static NotificationLog failure(String bookingId, String email, String subject, String error) {
+    public static NotificationLog failure(Long bookingId, String recipient, String subject, String message) {
         return NotificationLog.builder()
                 .bookingId(bookingId)
-                .recipientEmail(email)
-                .subject(subject)
+                .recipient(recipient)
+                .message(subject + " - " + message)
                 .status("FAILED")
-                .sentAt(LocalDateTime.now())
-                .errorMessage(error)
                 .build();
     }
 }

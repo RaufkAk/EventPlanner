@@ -3,6 +3,7 @@ package com.yeditepe.paymentservice.service;
 import com.yeditepe.paymentservice.dto.PaymentDTO;
 import com.yeditepe.paymentservice.dto.PaymentRequestDTO;
 import com.yeditepe.paymentservice.entity.Payment;
+import com.yeditepe.paymentservice.entity.PaymentMethod;
 import com.yeditepe.paymentservice.entity.PaymentStatus;
 import com.yeditepe.paymentservice.exception.PaymentNotFoundException;
 import com.yeditepe.paymentservice.repository.PaymentRepository;
@@ -36,9 +37,9 @@ public class PaymentService {
             .bookingId(paymentRequest.getBookingId())
             .amount(paymentRequest.getAmount())
             .paymentMethod(paymentRequest.getPaymentMethod() != null 
-                ? paymentRequest.getPaymentMethod() 
-                : com.yeditepe.paymentservice.entity.PaymentMethod.CREDIT_CARD) // Default payment method
-            .status(PaymentStatus.PENDING)
+                ? paymentRequest.getPaymentMethod().toString()
+                : "CREDIT_CARD")
+            .status("PENDING")
             .transactionId(generateTransactionId())
             .build();
         
@@ -49,11 +50,11 @@ public class PaymentService {
         boolean isProcessed = paymentProcessingService.processPayment(savedPayment, paymentRequest);
         
         if (isProcessed) {
-            savedPayment.setStatus(PaymentStatus.COMPLETED);
+            savedPayment.setStatus("COMPLETED");
             savedPayment.setPaymentDate(LocalDateTime.now());
             log.info("Payment processed successfully. Transaction ID: {}", savedPayment.getTransactionId());
         } else {
-            savedPayment.setStatus(PaymentStatus.FAILED);
+            savedPayment.setStatus("FAILED");
             log.warn("Payment processing failed. Transaction ID: {}", savedPayment.getTransactionId());
         }
         
@@ -102,11 +103,11 @@ public class PaymentService {
         Payment payment = paymentRepository.findById(paymentId)
             .orElseThrow(() -> new PaymentNotFoundException("Payment not found with ID: " + paymentId));
         
-        if (payment.getStatus() != PaymentStatus.COMPLETED) {
+        if (!payment.getStatus().equals("COMPLETED")) {
             throw new IllegalStateException("Only completed payments can be refunded");
         }
         
-        payment.setStatus(PaymentStatus.REFUNDED);
+        payment.setStatus("REFUNDED");
         payment.setUpdatedAt(LocalDateTime.now());
         
         Payment refundedPayment = paymentRepository.save(payment);
@@ -144,8 +145,8 @@ public class PaymentService {
             .id(payment.getId())
             .bookingId(payment.getBookingId())
             .amount(payment.getAmount())
-            .status(payment.getStatus())
-            .paymentMethod(payment.getPaymentMethod())
+            .status(payment.getStatus())  // Return status as String directly
+            .paymentMethod(payment.getPaymentMethod())  // Return paymentMethod as String directly
             .transactionId(payment.getTransactionId())
             .paymentDate(payment.getPaymentDate())
             .createdAt(payment.getCreatedAt())

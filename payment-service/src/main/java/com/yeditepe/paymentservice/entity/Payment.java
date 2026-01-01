@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "payments")
+@Table(name = "transactions")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,22 +20,20 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(nullable = false)
+    @Column(name = "booking_id", nullable = false)
     private Long bookingId;
     
     @Column(nullable = false)
     private BigDecimal amount;
     
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private PaymentStatus status;
+    private String status;
     
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private PaymentMethod paymentMethod;
-    
-    @Column(name = "transaction_id")
+    @Column(name = "transaction_id", nullable = false, unique = true)
     private String transactionId;
+    
+    @Column(name = "payment_method")
+    private String paymentMethod;
     
     @Column(name = "payment_date")
     private LocalDateTime paymentDate;

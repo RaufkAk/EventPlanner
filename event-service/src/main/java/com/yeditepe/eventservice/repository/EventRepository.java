@@ -1,16 +1,14 @@
 package com.yeditepe.eventservice.repository;
 
 import com.yeditepe.eventservice.model.Event;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-public interface EventRepository extends MongoRepository<Event, String> {
+public interface EventRepository extends JpaRepository<Event, String> {
 
-    List<Event> findByCategoryIgnoreCase(String category);
+    List<Event> findByDateBetween(LocalDateTime from, LocalDateTime to);
 
-    List<Event> findByVenueContainingIgnoreCase(String venue);
-
-    List<Event> findByStartTimeBetween(LocalDateTime from, LocalDateTime to);
+    List<Event> findByTitleContainingIgnoreCase(String title);
 }

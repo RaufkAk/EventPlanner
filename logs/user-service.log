@@ -120,3 +120,8 @@ Hibernate: alter table if exists user_roles add constraint FKhfh9dx7w3ubf1co1vde
 2026-01-01T19:04:47.152+03:00  INFO 51702 --- [user-service] [freshExecutor-0] com.netflix.discovery.DiscoveryClient    : Application version is -1: false
 2026-01-01T19:04:47.152+03:00  INFO 51702 --- [user-service] [freshExecutor-0] com.netflix.discovery.DiscoveryClient    : Getting all instance registry info from the eureka server
 2026-01-01T19:04:47.165+03:00  INFO 51702 --- [user-service] [freshExecutor-0] com.netflix.discovery.DiscoveryClient    : The response status is 200
+2026-01-01T19:06:05.877+03:00  INFO 51702 --- [user-service] [nio-8081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-01-01T19:06:05.877+03:00  INFO 51702 --- [user-service] [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-01-01T19:06:05.878+03:00  INFO 51702 --- [user-service] [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2026-01-01T19:06:05.883+03:00  WARN 51702 --- [user-service] [nio-8081-exec-1] o.s.w.s.h.HandlerMappingIntrospector     : Cache miss for REQUEST dispatch to '/health' (previous null). Performing CorsConfiguration lookup. This is logged once only at WARN level, and every time at TRACE.
+2026-01-01T19:06:05.886+03:00  WARN 51702 --- [user-service] [nio-8081-exec-1] o.s.w.s.h.HandlerMappingIntrospector     : Cache miss for REQUEST dispatch to '/health' (previous null). Performing MatchableHandlerMapping lookup. This is logged once only at WARN level, and every time at TRACE.

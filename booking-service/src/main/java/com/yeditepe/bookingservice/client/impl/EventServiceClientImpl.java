@@ -34,7 +34,7 @@ public class EventServiceClientImpl implements EventServiceClient {
     @Override
     public Boolean reserveSeat(String eventId) {
         try {
-            ResponseEntity<Boolean> resp = restTemplate.exchange(eventBaseUrl + "/api/events/{id}/reserve", HttpMethod.PUT, HttpEntity.EMPTY, Boolean.class, eventId);
+            ResponseEntity<Boolean> resp = restTemplate.exchange(eventBaseUrl + "/api/events/{id}/reserve", org.springframework.http.HttpMethod.PUT, HttpEntity.EMPTY, Boolean.class, eventId);
             return resp.getBody();
         } catch (Exception ex) {
             return true;
@@ -44,7 +44,7 @@ public class EventServiceClientImpl implements EventServiceClient {
     @Override
     public Boolean releaseSeat(String eventId) {
         try {
-            ResponseEntity<Boolean> resp = restTemplate.exchange(eventBaseUrl + "/api/events/{id}/release", HttpMethod.PUT, HttpEntity.EMPTY, Boolean.class, eventId);
+            ResponseEntity<Boolean> resp = restTemplate.exchange(eventBaseUrl + "/api/events/{id}/release", org.springframework.http.HttpMethod.PUT, HttpEntity.EMPTY, Boolean.class, eventId);
             return resp.getBody();
         } catch (Exception ex) {
             return true;

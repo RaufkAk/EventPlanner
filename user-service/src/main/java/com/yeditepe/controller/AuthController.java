@@ -35,7 +35,7 @@ public class AuthController {
                 .username(registerRequest.getUsername())
                 .password(registerRequest.getPassword())
                 .email(registerRequest.getEmail())
-                .roles(registerRequest.getRoles())
+                .roles(java.util.Collections.singleton("USER"))
                 .build();
         User savedUser = userService.registerUser(user);
         return ResponseEntity.ok("Kullanıcı başarıyla kaydedildi: " + savedUser.getUsername());

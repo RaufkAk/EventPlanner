@@ -21,7 +21,11 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getUserById(@PathVariable("id") Long id) {
         return userRepository.findById(id)
-                .map(user -> ResponseEntity.ok(user))
+                .map(user -> ResponseEntity.ok(new com.yeditepe.dto.UserProfile(
+                        user.getUsername(),
+                        user.getEmail(),
+                        user.getFirstName(),
+                        user.getLastName())))
                 .orElse(ResponseEntity.notFound().build());
     }
 }
