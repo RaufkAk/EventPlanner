@@ -1,0 +1,21 @@
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.1)
+
+2025-12-29T07:46:28.130+03:00  INFO 54289 --- [api-gateway] [           main] c.y.gateway.ApiGatewayApplication        : Starting ApiGatewayApplication using Java 17.0.15 with PID 54289 (/Users/raufkutayakyildiz/Desktop/ıntellijWs/EventPlanner/api-gateway/target/api-gateway-0.0.1-SNAPSHOT.jar started by raufkutayakyildiz in /Users/raufkutayakyildiz/Desktop/ıntellijWs/EventPlanner/event-service)
+2025-12-29T07:46:28.134+03:00  INFO 54289 --- [api-gateway] [           main] c.y.gateway.ApiGatewayApplication        : No active profile set, falling back to 1 default profile: "default"
+2025-12-29T07:46:28.833+03:00  INFO 54289 --- [api-gateway] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8000 (http)
+2025-12-29T07:46:28.843+03:00  INFO 54289 --- [api-gateway] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-29T07:46:28.843+03:00  INFO 54289 --- [api-gateway] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.15]
+2025-12-29T07:46:28.865+03:00  INFO 54289 --- [api-gateway] [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 682 ms
+2025-12-29T07:46:29.198+03:00  INFO 54289 --- [api-gateway] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8000 (http) with context path '/'
+2025-12-29T07:46:29.207+03:00  INFO 54289 --- [api-gateway] [           main] c.y.gateway.ApiGatewayApplication        : Started ApiGatewayApplication in 1.441 seconds (process running for 1.891)
+2025-12-29T07:47:11.033+03:00  INFO 54289 --- [api-gateway] [nio-8000-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-29T07:47:11.033+03:00  INFO 54289 --- [api-gateway] [nio-8000-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-12-29T07:47:11.034+03:00  INFO 54289 --- [api-gateway] [nio-8000-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms

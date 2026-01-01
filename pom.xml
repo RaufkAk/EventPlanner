@@ -18,10 +18,11 @@
     </modules>
     <properties>
         <java.version>17</java.version>
-        <spring-boot.version>4.0.1</spring-boot.version>
-        <spring-cloud.version>2021.0.5</spring-cloud.version>
+        <spring-boot.version>3.2.0</spring-boot.version>
+        <spring-cloud.version>2023.0.0</spring-cloud.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <build>
         <pluginManagement>
@@ -49,7 +50,7 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>2021.0.5</version>
+                <version>${spring-cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -68,17 +69,6 @@
                 <version>42.6.0</version>
             </dependency>
 
-            <dependency>
-                <groupId>com.netflix.eureka</groupId>
-                <artifactId>eureka-client-jersey3</artifactId>
-                <version>1.10.14</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.glassfish.jersey.inject</groupId>
-                <artifactId>jersey-hk2</artifactId>
-                <version>3.1.2</version>
-            </dependency>
 
             <dependency>
                 <groupId>io.jsonwebtoken</groupId>
@@ -100,6 +90,18 @@
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
                 <version>8.0.33</version>
+            </dependency>
+
+            <dependency>
+                <groupId>jakarta.validation</groupId>
+                <artifactId>jakarta.validation-api</artifactId>
+                <version>3.0.2</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.hibernate.validator</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>8.0.1.Final</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

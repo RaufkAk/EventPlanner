@@ -2,6 +2,7 @@ package com.yeditepe.eventservice.controller;
 
 import com.yeditepe.eventservice.dto.EventRequest;
 import com.yeditepe.eventservice.dto.EventResponse;
+import com.yeditepe.eventservice.dto.StockResponse;
 import com.yeditepe.eventservice.service.EventService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping("/events")
+@RequestMapping("/api/events")
 @Validated
 public class EventController {
 
@@ -71,5 +72,28 @@ public class EventController {
     public ResponseEntity<Void> deleteEvent(@PathVariable String id) {
         eventService.deleteEvent(id);
         return ResponseEntity.noContent().build();
+    }
+
+    // GET /api/events/{id}/stock
+    @GetMapping("/{id}/stock")
+    public ResponseEntity<StockResponse> checkStock(@PathVariable String id) {
+        Integer availableSeats = eventService.getAvailableSeats(id);
+        boolean hasStock = eventService.checkStock(id);
+        
+        return ResponseEntity.ok(new StockResponse(id, availableSeats, hasStock));
+    }
+
+    // PUT /api/events/{id}/reserve
+    @PutMapping("/{id}/reserve")
+    public ResponseEntity<Boolean> reserveSeat(@PathVariable String id) {
+        boolean reserved = eventService.reserveSeat(id);
+        return ResponseEntity.ok(reserved);
+    }
+
+    // PUT /api/events/{id}/release
+    @PutMapping("/{id}/release")
+    public ResponseEntity<Boolean> releaseSeat(@PathVariable String id) {
+        boolean released = eventService.releaseSeat(id);
+        return ResponseEntity.ok(released);
     }
 }

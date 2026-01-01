@@ -35,7 +35,9 @@ public class PaymentService {
         Payment payment = Payment.builder()
             .bookingId(paymentRequest.getBookingId())
             .amount(paymentRequest.getAmount())
-            .paymentMethod(paymentRequest.getPaymentMethod())
+            .paymentMethod(paymentRequest.getPaymentMethod() != null 
+                ? paymentRequest.getPaymentMethod() 
+                : com.yeditepe.paymentservice.entity.PaymentMethod.CREDIT_CARD) // Default payment method
             .status(PaymentStatus.PENDING)
             .transactionId(generateTransactionId())
             .build();

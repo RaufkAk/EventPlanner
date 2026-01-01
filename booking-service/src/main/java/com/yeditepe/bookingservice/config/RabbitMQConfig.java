@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQConfig {
 
-    public static final String BOOKING_QUEUE = "booking-queue";
+    public static final String BOOKING_QUEUE = "notificationQueue";
 
     @Bean
     public Queue bookingQueue() {

@@ -53,6 +53,7 @@ public class EventService {
         event.setStartTime(request.getStartTime());
         event.setEndTime(request.getEndTime());
         event.setCapacity(request.getCapacity());
+        event.setAvailableSeats(request.getCapacity()); // Initialize available seats to capacity
 
         Event saved = eventRepository.save(event);
         return toResponse(saved);
@@ -80,6 +81,49 @@ public class EventService {
             throw new RuntimeException("Event not found with id: " + id);
         }
         eventRepository.deleteById(id);
+    }
+
+    // Stock management methods
+    public boolean checkStock(String eventId) {
+        Event event = eventRepository.findById(eventId)
+                .orElseThrow(() -> new RuntimeException("Event not found with id: " + eventId));
+        return event.getAvailableSeats() != null && event.getAvailableSeats() > 0;
+    }
+
+    public Integer getAvailableSeats(String eventId) {
+        Event event = eventRepository.findById(eventId)
+                .orElseThrow(() -> new RuntimeException("Event not found with id: " + eventId));
+        return event.getAvailableSeats() != null ? event.getAvailableSeats() : 0;
+    }
+
+    public boolean reserveSeat(String eventId) {
+        Event event = eventRepository.findById(eventId)
+                .orElseThrow(() -> new RuntimeException("Event not found with id: " + eventId));
+        
+        if (event.getAvailableSeats() == null || event.getAvailableSeats() <= 0) {
+            return false;
+        }
+        
+        event.setAvailableSeats(event.getAvailableSeats() - 1);
+        eventRepository.save(event);
+        return true;
+    }
+
+    public boolean releaseSeat(String eventId) {
+        Event event = eventRepository.findById(eventId)
+                .orElseThrow(() -> new RuntimeException("Event not found with id: " + eventId));
+        
+        if (event.getAvailableSeats() == null) {
+            event.setAvailableSeats(0);
+        }
+        
+        if (event.getAvailableSeats() >= event.getCapacity()) {
+            return false; // Already at max capacity
+        }
+        
+        event.setAvailableSeats(event.getAvailableSeats() + 1);
+        eventRepository.save(event);
+        return true;
     }
 
     // ---- helpers ----

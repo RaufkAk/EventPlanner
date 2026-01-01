@@ -24,8 +24,9 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/actuator/**").permitAll()
-                        .anyRequest().authenticated()
+                    .requestMatchers("/actuator/**").permitAll()
+                    .requestMatchers("/api/bookings/**").permitAll()
+                    .anyRequest().authenticated()
                 )
                 .httpBasic(httpBasic -> {})
                 .formLogin(AbstractHttpConfigurer::disable);

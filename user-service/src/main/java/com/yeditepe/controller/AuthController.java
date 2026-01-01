@@ -5,7 +5,6 @@ import com.yeditepe.dto.JwtResponse;
 import com.yeditepe.dto.LoginRequest;
 import com.yeditepe.dto.RegisterRequest;
 import com.yeditepe.entity.User;
-import com.yeditepe.repository.UserRepository;
 import com.yeditepe.service.UserService;
 import lombok.*;
 import org.springframework.http.ResponseEntity;

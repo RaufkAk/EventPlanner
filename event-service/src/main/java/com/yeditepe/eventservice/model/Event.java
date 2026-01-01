@@ -28,6 +28,9 @@ public class Event {
 
     private Integer capacity;
 
+    @Field("available_seats")
+    private Integer availableSeats;
+
     public Event() {
     }
 
@@ -103,5 +106,13 @@ public class Event {
 
     public void setCapacity(Integer capacity) {
         this.capacity = capacity;
+    }
+
+    public Integer getAvailableSeats() {
+        return availableSeats;
+    }
+
+    public void setAvailableSeats(Integer availableSeats) {
+        this.availableSeats = availableSeats;
     }
 }

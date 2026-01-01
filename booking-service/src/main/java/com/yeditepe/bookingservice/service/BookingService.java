@@ -35,11 +35,11 @@ public class BookingService {
     private final BookingEventPublisher eventPublisher;
 
     @Transactional
-    public BookingResponse createBooking(BookingRequest request) {
+    public BookingResponse createBooking(BookingRequest request, String authorizationHeader) {
         log.info("Creating booking for user: {} and event: {}", request.getUserId(), request.getEventId());
         
         try {
-            Boolean userValid = userServiceClient.validateUser(request.getUserId());
+            Boolean userValid = userServiceClient.validateUser(request.getUserId(), authorizationHeader);
             if (!userValid) {
                 throw new RuntimeException("User validation failed");
             }
@@ -85,9 +85,9 @@ public class BookingService {
             );
             PaymentResponse paymentResponse = paymentServiceClient.processPayment(paymentRequest);
             
-            if (!"SUCCESS".equals(paymentResponse.getStatus())) {
+            if (paymentResponse == null || !"COMPLETED".equals(paymentResponse.getStatus())) {
                 rollbackBooking(savedBooking);
-                throw new RuntimeException("Payment failed: " + paymentResponse.getMessage());
+                throw new RuntimeException("Payment failed: " + (paymentResponse != null ? paymentResponse.getStatus() : "null response"));
             }
         } catch (Exception e) {
             log.error("Payment processing failed: {}", e.getMessage());

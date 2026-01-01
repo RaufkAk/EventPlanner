@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,33 +26,27 @@ public class BookingController {
 
     private final BookingService bookingService;
 
-    // USER veya ADMIN yeni booking açabilir
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     @PostMapping
-    public ResponseEntity<BookingResponse> createBooking(@Valid @RequestBody BookingRequest request) {
+    public ResponseEntity<BookingResponse> createBooking(
+            @Valid @RequestBody BookingRequest request,
+            @RequestHeader(value = "Authorization", required = false) String authorizationHeader) {
         log.info("Received booking request: {}", request);
-        BookingResponse response = bookingService.createBooking(request);
+        BookingResponse response = bookingService.createBooking(request, authorizationHeader);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    // Sadece ADMIN herhangi bir booking'i ID ile okuyabilir
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{id}")
-    public ResponseEntity<BookingResponse> getBookingById(@PathVariable Long id) {
+    public ResponseEntity<BookingResponse> getBookingById(@PathVariable("id") Long id) {
         BookingResponse response = bookingService.getBookingById(id);
         return ResponseEntity.ok(response);
     }
 
-    // USER kendi booking'lerini, ADMIN herkesinkini görebilir (şimdilik id kontrolü yapmıyoruz)
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<BookingResponse>> getBookingsByUserId(@PathVariable Long userId) {
+    public ResponseEntity<List<BookingResponse>> getBookingsByUserId(@PathVariable("userId") Long userId) {
         List<BookingResponse> bookings = bookingService.getBookingsByUserId(userId);
         return ResponseEntity.ok(bookings);
     }
 
-    // Sadece ADMIN belirli bir etkinliğin tüm booking'lerini görebilir
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/event/{eventId}")
     public ResponseEntity<List<BookingResponse>> getBookingsByEventId(@PathVariable String eventId) {
         List<BookingResponse> bookings = bookingService.getBookingsByEventId(eventId);

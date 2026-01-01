@@ -1,7 +1,6 @@
 package com.yeditepe.config;
 
 import com.yeditepe.service.UserService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
