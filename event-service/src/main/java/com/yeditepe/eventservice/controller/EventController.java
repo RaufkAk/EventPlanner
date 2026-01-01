@@ -27,12 +27,12 @@ public class EventController {
     // GET /events?category=...&venue=...&from=...&to=...
     @GetMapping
     public ResponseEntity<List<EventResponse>> getAllEvents(
-            @RequestParam(required = false) String category,
-            @RequestParam(required = false) String venue,
-            @RequestParam(required = false)
+            @RequestParam(name = "category", required = false) String category,
+            @RequestParam(name = "venue", required = false) String venue,
+            @RequestParam(name = "from", required = false)
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
             LocalDateTime from,
-            @RequestParam(required = false)
+            @RequestParam(name = "to", required = false)
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
             LocalDateTime to) {
 
@@ -43,7 +43,7 @@ public class EventController {
 //ab5566
     // GET /events/{id}
     @GetMapping("/{id}")
-    public ResponseEntity<EventResponse> getEventById(@PathVariable String id) {
+    public ResponseEntity<EventResponse> getEventById(@PathVariable(name = "id") String id) {
         EventResponse event = eventService.getEventById(id);
         return ResponseEntity.ok(event);
     }
@@ -60,7 +60,7 @@ public class EventController {
     // PUT /events/{id}
     @PutMapping("/{id}")
     public ResponseEntity<EventResponse> updateEvent(
-            @PathVariable String id,
+            @PathVariable(name = "id") String id,
             @RequestBody @Validated EventRequest request) {
 
         EventResponse updated = eventService.updateEvent(id, request);
@@ -69,14 +69,14 @@ public class EventController {
 
     // DELETE /events/{id}
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteEvent(@PathVariable String id) {
+    public ResponseEntity<Void> deleteEvent(@PathVariable(name = "id") String id) {
         eventService.deleteEvent(id);
         return ResponseEntity.noContent().build();
     }
 
     // GET /api/events/{id}/stock
     @GetMapping("/{id}/stock")
-    public ResponseEntity<StockResponse> checkStock(@PathVariable String id) {
+    public ResponseEntity<StockResponse> checkStock(@PathVariable(name = "id") String id) {
         Integer availableSeats = eventService.getAvailableSeats(id);
         boolean hasStock = eventService.checkStock(id);
         
@@ -85,14 +85,14 @@ public class EventController {
 
     // PUT /api/events/{id}/reserve
     @PutMapping("/{id}/reserve")
-    public ResponseEntity<Boolean> reserveSeat(@PathVariable String id) {
+    public ResponseEntity<Boolean> reserveSeat(@PathVariable(name = "id") String id) {
         boolean reserved = eventService.reserveSeat(id);
         return ResponseEntity.ok(reserved);
     }
 
     // PUT /api/events/{id}/release
     @PutMapping("/{id}/release")
-    public ResponseEntity<Boolean> releaseSeat(@PathVariable String id) {
+    public ResponseEntity<Boolean> releaseSeat(@PathVariable(name = "id") String id) {
         boolean released = eventService.releaseSeat(id);
         return ResponseEntity.ok(released);
     }
