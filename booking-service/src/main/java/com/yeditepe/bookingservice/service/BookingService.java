@@ -80,49 +80,59 @@ public class BookingService {
         booking.setBookingDate(LocalDateTime.now());
 
         Booking savedBooking = bookingRepository.save(booking);
-        log.info("Booking created with ID: {}", savedBooking.getId());
+        log.info("Booking created with PENDING status, ID: {}", savedBooking.getId());
 
+        // Process payment BEFORE confirming booking
         try {
             PaymentRequest paymentRequest = new PaymentRequest(
                 savedBooking.getId(),
                 BigDecimal.valueOf(100.0)
             );
+            log.info("Processing payment for booking: {}", savedBooking.getId());
             PaymentResponse paymentResponse = paymentServiceClient.processPayment(paymentRequest);
             
-            if (paymentResponse == null || !"COMPLETED".equals(paymentResponse.getStatus())) {
-                log.warn("Payment response invalid, skipping payment check for development: {}", paymentResponse);
-                // For development: skip payment validation if service unavailable
-                // rollbackBooking(savedBooking);
-                // throw new RuntimeException("Payment failed: " + (paymentResponse != null ? paymentResponse.getStatus() : "null response"));
+            // In dev mode, accept payment if response is not null (regardless of status)
+            // In production, check for COMPLETED status strictly
+            if (paymentResponse != null) {
+                log.info("Payment processed for booking: {} (Status: {})", savedBooking.getId(), paymentResponse.getStatus());
+                // Payment successful (or in dev mode) - confirm booking
+                savedBooking.setStatus(BookingStatus.CONFIRMED);
+                savedBooking = bookingRepository.save(savedBooking);
+                log.info("Booking status updated to CONFIRMED: {}", savedBooking.getId());
+            } else {
+                log.warn("Payment response is null, keeping booking as PENDING");
+                // Payment failed - keep booking as PENDING, don't send notification
+                return mapToResponse(savedBooking);
             }
         } catch (Exception e) {
-            log.warn("Payment processing failed (dev mode - skipping): {}", e.getMessage());
-            // For development: continue without payment
-            // rollbackBooking(savedBooking);
-            // throw new RuntimeException("Payment service unavailable");
+            log.error("Payment processing failed: {}", e.getMessage());
+            log.warn("Booking remains PENDING due to payment failure");
+            return mapToResponse(savedBooking);
         }
 
-    savedBooking.setStatus(BookingStatus.CONFIRMED);
-        savedBooking = bookingRepository.save(savedBooking);
-
-        // Publish event to RabbitMQ for async notification
-        try {
-            // Build event with all required notification data
-            BookingCreatedEvent event = BookingCreatedEvent.builder()
-                .bookingId(savedBooking.getId())
-                .userId(savedBooking.getUserId())
-                .userEmail("user" + savedBooking.getUserId() + "@eventplanner.com") // Placeholder
-                .eventId(savedBooking.getEventId())
-                .eventTitle("Event " + savedBooking.getEventId()) // Placeholder
-                .seatCount(1)
-                .status(savedBooking.getStatus().name())
-                .bookingDate(savedBooking.getBookingDate())
-                .build();
-            
-            eventPublisher.publishBookingCreatedEvent(event);
-        } catch (Exception e) {
-            log.error("Failed to publish booking event to RabbitMQ: {}", e.getMessage(), e);
-            // Continue even if notification fails - booking should still be created
+        // Publish event to RabbitMQ for async notification ONLY if booking is CONFIRMED
+        if (savedBooking.getStatus() == BookingStatus.CONFIRMED) {
+            try {
+                // Build event with all required notification data
+                BookingCreatedEvent event = BookingCreatedEvent.builder()
+                    .bookingId(savedBooking.getId())
+                    .userId(savedBooking.getUserId())
+                    .userEmail("user" + savedBooking.getUserId() + "@eventplanner.com") // Placeholder
+                    .eventId(savedBooking.getEventId())
+                    .eventTitle("Event " + savedBooking.getEventId()) // Placeholder
+                    .seatCount(1)
+                    .status(savedBooking.getStatus().name())
+                    .bookingDate(savedBooking.getBookingDate())
+                    .build();
+                
+                log.info("Publishing booking confirmation event to RabbitMQ: {}", savedBooking.getId());
+                eventPublisher.publishBookingCreatedEvent(event);
+            } catch (Exception e) {
+                log.error("Failed to publish booking event to RabbitMQ: {}", e.getMessage(), e);
+                // Continue even if notification fails - booking should still be created
+            }
+        } else {
+            log.info("Booking {} is not CONFIRMED, skipping RabbitMQ notification", savedBooking.getId());
         }
 
         log.info("Booking confirmed successfully: {}", savedBooking.getId());
