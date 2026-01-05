@@ -12,8 +12,8 @@ public interface NotificationLogRepository extends MongoRepository<NotificationL
     // Belirli bir booking ID'ye ait bildirimleri bul
     List<NotificationLog> findByBookingId(String bookingId);
 
-    // Belirli bir email adresine gönderilen bildirimleri bul
-    List<NotificationLog> findByRecipientEmail(String email);
+    // Belirli bir alıcıya gönderilen bildirimleri bul
+    List<NotificationLog> findByRecipient(String recipient);
 
     // Başarısız bildirimleri bul
     List<NotificationLog> findByStatus(String status);

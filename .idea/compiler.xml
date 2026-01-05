@@ -6,29 +6,28 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="api-gateway" />
-        <module name="notification-service" />
+        <module name="config-server" />
         <module name="discovery-server" />
+        <module name="payment-service" />
+        <module name="booking-service" />
+        <module name="api-gateway" />
+        <module name="user-service" />
+        <module name="notification-service" />
       </profile>
-      <profile name="Annotation profile for EventPlanner" enabled="true">
+      <profile name="Annotation profile for event-service" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.28/lombok-1.18.28.jar" />
         </processorPath>
-        <module name="config-server" />
-        <module name="payment-service" />
         <module name="event-service" />
-        <module name="booking-service" />
-        <module name="user-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="BookingService" target="21" />
       <module name="EurekaServer" target="21" />
       <module name="EventCatalogService" target="21" />
-      <module name="EventPlanner" target="17" />
       <module name="NotificationService" target="21" />
       <module name="PaymentService" target="21" />
     </bytecodeTargetLevel>
@@ -38,17 +37,17 @@
       <module name="BookingService" options="-parameters" />
       <module name="EurekaServer" options="-parameters" />
       <module name="EventCatalogService" options="-parameters" />
-      <module name="EventPlanner" options="-parameters" />
+      <module name="EventPlanner" options="" />
       <module name="NotificationService" options="-parameters" />
       <module name="PaymentService" options="-parameters" />
-      <module name="api-gateway" options="-parameters" />
-      <module name="booking-service" options="-parameters" />
-      <module name="config-server" options="-parameters" />
-      <module name="discovery-server" options="-parameters" />
-      <module name="event-service" options="-parameters" />
-      <module name="notification-service" options="-parameters" />
-      <module name="payment-service" options="-parameters" />
-      <module name="user-service" options="-parameters" />
+      <module name="api-gateway" options="" />
+      <module name="booking-service" options="" />
+      <module name="config-server" options="" />
+      <module name="discovery-server" options="" />
+      <module name="event-service" options="" />
+      <module name="notification-service" options="" />
+      <module name="payment-service" options="" />
+      <module name="user-service" options="" />
     </option>
   </component>
 </project>

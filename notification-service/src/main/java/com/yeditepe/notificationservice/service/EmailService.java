@@ -1,53 +1,53 @@
 package com.yeditepe.notificationservice.service;
 
-import com.yeditepe.notificationservice.model.BookingEvent;
+import com.yeditepe.notificationservice.event.BookingCreatedEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 /**
  * Email gönderme servisi
- * NOT: Gerçek email göndermek için Gmail App Password gerekir
- * Şimdilik simülasyon yapıyoruz (log'a yazıyoruz)
+ * NOTE: SMTP üzerinden gerçek email gönderiyor (Mailtrap test server)
  */
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class EmailService {
+    
+    private final JavaMailSender mailSender;
 
     /**
      * Rezervasyon onay emaili gönder
      */
-    public void sendBookingConfirmation(BookingEvent event) {
+    public void sendBookingConfirmation(BookingCreatedEvent event) {
         try {
             String subject = "Booking Confirmation - " + event.getEventTitle();
             String body = buildEmailBody(event);
 
-            // SIMULATED: Gerçek email göndermek yerine log'a yazıyoruz
-            log.info("=== EMAIL SENT ===");
-            log.info("To: {}", event.getUserEmail());
-            log.info("Subject: {}", subject);
-            log.info("Body:\n{}", body);
-            log.info("==================");
-
-            // REAL IMPLEMENTATION (uncommment when ready):
-            // SimpleMailMessage message = new SimpleMailMessage();
-            // message.setTo(event.getUserEmail());
-            // message.setSubject(subject);
-            // message.setText(body);
-            // message.setFrom("noreply@eventplanner.com");
-            // mailSender.send(message);
+            // Gerçek email gönderimi (Mailtrap)
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setTo(event.getUserEmail());
+            message.setSubject(subject);
+            message.setText(body);
+            message.setFrom("noreply@eventplanner.com");
+            
+            mailSender.send(message);
+            
+            log.info("✅ Email SUCCESSFULLY SENT to: {}", event.getUserEmail());
+            log.info("📧 Subject: {}", subject);
 
         } catch (Exception e) {
-            log.error("Failed to send email to {}: {}", event.getUserEmail(), e.getMessage());
-            throw new RuntimeException("Email sending failed", e);
+            log.error("❌ Failed to send email to {}: {}", event.getUserEmail(), e.getMessage());
+            throw new RuntimeException("Email sending failed: " + e.getMessage(), e);
         }
     }
 
     /**
      * Email içeriği oluştur
      */
-    private String buildEmailBody(BookingEvent event) {
+    private String buildEmailBody(BookingCreatedEvent event) {
         return String.format("""
                 Dear Customer,
                 

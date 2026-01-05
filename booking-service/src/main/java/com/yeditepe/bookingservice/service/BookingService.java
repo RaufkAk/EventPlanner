@@ -105,15 +105,25 @@ public class BookingService {
     savedBooking.setStatus(BookingStatus.CONFIRMED);
         savedBooking = bookingRepository.save(savedBooking);
 
-        // Publish event (commented out for development - RabbitMQ may not be running)
-        // BookingCreatedEvent event = new BookingCreatedEvent(
-        //     savedBooking.getId(),
-        //     savedBooking.getUserId(),
-        //     savedBooking.getEventId(),
-        //     savedBooking.getStatus().name(),
-        //     savedBooking.getBookingDate()
-        // );
-        // eventPublisher.publishBookingCreatedEvent(event);
+        // Publish event to RabbitMQ for async notification
+        try {
+            // Build event with all required notification data
+            BookingCreatedEvent event = BookingCreatedEvent.builder()
+                .bookingId(savedBooking.getId())
+                .userId(savedBooking.getUserId())
+                .userEmail("user" + savedBooking.getUserId() + "@eventplanner.com") // Placeholder
+                .eventId(savedBooking.getEventId())
+                .eventTitle("Event " + savedBooking.getEventId()) // Placeholder
+                .seatCount(1)
+                .status(savedBooking.getStatus().name())
+                .bookingDate(savedBooking.getBookingDate())
+                .build();
+            
+            eventPublisher.publishBookingCreatedEvent(event);
+        } catch (Exception e) {
+            log.error("Failed to publish booking event to RabbitMQ: {}", e.getMessage(), e);
+            // Continue even if notification fails - booking should still be created
+        }
 
         log.info("Booking confirmed successfully: {}", savedBooking.getId());
         return mapToResponse(savedBooking);

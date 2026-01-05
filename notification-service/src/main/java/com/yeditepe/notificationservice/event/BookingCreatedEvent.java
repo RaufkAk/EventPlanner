@@ -1,4 +1,4 @@
-package com.yeditepe.bookingservice.event;
+package com.yeditepe.notificationservice.event;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

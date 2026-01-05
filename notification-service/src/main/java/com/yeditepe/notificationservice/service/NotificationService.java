@@ -1,6 +1,6 @@
 package com.yeditepe.notificationservice.service;
 
-import com.yeditepe.notificationservice.model.BookingEvent;
+import com.yeditepe.notificationservice.event.BookingCreatedEvent;
 import com.yeditepe.notificationservice.model.NotificationLog;
 import com.yeditepe.notificationservice.repository.NotificationLogRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ public class NotificationService {
      * 1. Email gönder
      * 2. MongoDB'ye kaydet
      */
-    public void processBookingNotification(BookingEvent event) {
+    public void processBookingNotification(BookingCreatedEvent event) {
         log.info("Processing notification for booking: {}", event.getBookingId());
 
         String subject = "Booking Confirmation - " + event.getEventTitle();
@@ -35,7 +35,7 @@ public class NotificationService {
 
             // Başarılı log kaydet
             NotificationLog successLog = NotificationLog.success(
-                    Long.parseLong(event.getBookingId()),
+                    event.getBookingId(),
                     event.getUserEmail(),
                     subject,
                     "Booking confirmation email sent successfully"
@@ -50,7 +50,7 @@ public class NotificationService {
 
             try {
                 NotificationLog failureLog = NotificationLog.failure(
-                        Long.parseLong(event.getBookingId()),
+                        event.getBookingId(),
                         event.getUserEmail(),
                         subject,
                         e.getMessage()

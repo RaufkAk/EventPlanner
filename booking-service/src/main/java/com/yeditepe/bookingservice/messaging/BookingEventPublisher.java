@@ -15,8 +15,13 @@ public class BookingEventPublisher {
     private final RabbitTemplate rabbitTemplate;
 
     public void publishBookingCreatedEvent(BookingCreatedEvent event) {
-        log.info("Publishing booking created event: {}", event);
-        rabbitTemplate.convertAndSend(RabbitMQConfig.BOOKING_QUEUE, event);
-        log.info("Booking created event published successfully");
+        log.info("🚀 Publishing booking created event to RabbitMQ: {}", event);
+        try {
+            rabbitTemplate.convertAndSend(RabbitMQConfig.BOOKING_EXCHANGE, RabbitMQConfig.BOOKING_ROUTING_KEY, event);
+            log.info("✅ Booking created event published successfully to {}/{}", RabbitMQConfig.BOOKING_EXCHANGE, RabbitMQConfig.BOOKING_ROUTING_KEY);
+        } catch (Exception e) {
+            log.error("❌ Failed to publish: {}", e.getMessage(), e);
+            throw new RuntimeException(e);
+        }
     }
 }

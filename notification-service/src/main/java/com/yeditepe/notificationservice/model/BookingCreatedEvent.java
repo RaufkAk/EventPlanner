@@ -13,23 +13,14 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookingEvent implements Serializable {
+public class BookingCreatedEvent implements Serializable {
 
-    private String bookingId;
-    private String userId;
+    private Long bookingId;
+    private Long userId;
     private String userEmail;
     private String eventId;
     private String eventTitle;
     private Integer seatCount;
     private LocalDateTime bookingDate;
     private String status; // CONFIRMED, CANCELLED
-
-    // Constructor for quick creation
-    public BookingEvent(String bookingId, String userEmail, String eventTitle) {
-        this.bookingId = bookingId;
-        this.userEmail = userEmail;
-        this.eventTitle = eventTitle;
-        this.bookingDate = LocalDateTime.now();
-        this.status = "CONFIRMED";
-    }
 }
