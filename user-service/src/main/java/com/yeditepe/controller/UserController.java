@@ -1,5 +1,6 @@
 package com.yeditepe.controller;
 
+import com.yeditepe.dto.UserProfile;
 import com.yeditepe.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getUserById(@PathVariable("id") Long id) {
         return userRepository.findById(id)
-                .map(user -> ResponseEntity.ok(new com.yeditepe.dto.UserProfile(
+                .map(user -> ResponseEntity.ok(new UserProfile(
                         user.getUsername(),
                         user.getEmail(),
                         user.getFirstName(),
@@ -29,5 +30,3 @@ public class UserController {
                 .orElse(ResponseEntity.notFound().build());
     }
 }
-
-

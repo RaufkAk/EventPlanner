@@ -1,4 +1,4 @@
-package com.yeditepe.config;
+package com.yeditepe.eventservice.config;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -6,11 +6,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class AuthTokenFilter extends OncePerRequestFilter {
@@ -35,12 +38,11 @@ public class AuthTokenFilter extends OncePerRequestFilter {
                 boolean valid = jwtUtils.validateJwtToken(token);
                 if (valid) {
                     String username = jwtUtils.getUserNameFromJwtToken(token);
-                    java.util.List<String> roles = jwtUtils.getRolesFromJwtToken(token);
+                    List<String> roles = jwtUtils.getRolesFromJwtToken(token);
 
-                    java.util.List<org.springframework.security.core.authority.SimpleGrantedAuthority> authorities = roles
-                            .stream()
-                            .map(role -> new org.springframework.security.core.authority.SimpleGrantedAuthority(role))
-                            .collect(java.util.stream.Collectors.toList());
+                    List<SimpleGrantedAuthority> authorities = roles.stream()
+                            .map(SimpleGrantedAuthority::new)
+                            .collect(Collectors.toList());
 
                     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                             username, null, authorities);
@@ -49,7 +51,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
                 }
             }
         } catch (Exception ex) {
-            // ignore and continue filter chain; authentication will fail if invalid
+            // ignore and continue filter chain
         }
 
         filterChain.doFilter(request, response);

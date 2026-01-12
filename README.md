@@ -98,21 +98,24 @@ Access Eureka Dashboard: [http://localhost:8761](http://localhost:8761)
 #### B. Config Server
 ```bash
 cd config-server
-mvn spring-boot:run
-# OR
 java -jar target/config-server-0.0.1-SNAPSHOT.jar
 ```
 
-#### C. Other Services (start in any order)
+#### C. Core Services (Docker Profile)
+Some services require connecting to the Docker infrastructure (PostgreSQL, MySQL). Use the `docker` profile for these:
+
 ```bash
-# User Service
-java -jar user-service/target/user-service-0.0.1-SNAPSHOT.jar
+# User Service (PostgreSQL)
+java -jar -Dspring.profiles.active=docker user-service/target/user-service-0.0.1-SNAPSHOT.jar
 
-# Event Catalog Service
+# Booking Service (MySQL)
+java -jar -Dspring.profiles.active=docker booking-service/target/booking-service-0.0.1-SNAPSHOT.jar
+```
+
+#### D. Other Services
+```bash
+# Event Service
 java -jar event-service/target/event-service-0.0.1-SNAPSHOT.jar
-
-# Booking Service
-java -jar booking-service/target/booking-service-0.0.1-SNAPSHOT.jar
 
 # Payment Service
 java -jar payment-service/target/payment-service-0.0.1-SNAPSHOT.jar
@@ -120,9 +123,32 @@ java -jar payment-service/target/payment-service-0.0.1-SNAPSHOT.jar
 # Notification Service
 java -jar notification-service/target/notification-service-0.0.1-SNAPSHOT.jar
 
-# API Gateway (start last)
+# API Gateway
 java -jar api-gateway/target/api-gateway-0.0.1-SNAPSHOT.jar
 ```
+
+## Configuration & Environment Variables
+
+The project uses externalized configuration. Critical parameters can be overridden via environment variables or command line arguments:
+
+| Service | Property | Environment Variable | Default |
+|---------|----------|----------------------|---------|
+| User Service | `app.jwtSecret` | `APP_JWT_SECRET` | `yeditepe...` |
+| User Service | `app.jwtExpirationMs` | `APP_JWT_EXPIRATION` | `86400000` |
+| Notification | `spring.mail.username` | `MAIL_USERNAME` | `763ef6e...` |
+| Notification | `spring.mail.password` | `MAIL_PASSWORD` | `80fc078...` |
+
+> [!TIP]
+> You can set these in your IDE or pass them as `-D` arguments when running the JAR.
+
+### Database Profiles
+
+- **Default (No profile)**: Uses **H2 In-Memory** database. Good for quick testing and development.
+- **Docker Profile (`-Dspring.profiles.active=docker`)**: Connects to the databases defined in `docker-compose.yml`.
+  - User Service -> PostgreSQL (Port 5432)
+  - Booking Service -> MySQL (Port 3306)
+  - Payment Service -> MySQL (Port 3306)
+
 
 ## API Endpoints
 

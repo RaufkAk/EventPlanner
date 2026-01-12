@@ -19,16 +19,5 @@ public class NotificationServiceApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(NotificationServiceApplication.class, args);
-        System.out.println("""
-                
-                ╔═══════════════════════════════════════════╗
-                ║   NOTIFICATION SERVICE STARTED! 🔔        ║
-                ║                                           ║
-                ║   Port: 8085                              ║
-                ║   Listening to: notificationQueue        ║
-                ║   MongoDB: notification_db                ║
-                ║   Eureka: Registered                      ║
-                ╚═══════════════════════════════════════════╝
-                """);
     }
 }

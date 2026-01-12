@@ -17,10 +17,8 @@ public class CorrelationIdFilter extends OncePerRequestFilter {
     public static final String CORRELATION_ID_HEADER = "X-Correlation-ID";
 
     @Override
-    protected void doFilterInternal(
-            jakarta.servlet.http.HttpServletRequest request, 
-            jakarta.servlet.http.HttpServletResponse response, 
-            FilterChain filterChain) throws jakarta.servlet.ServletException, java.io.IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
         String correlationId = request.getHeader(CORRELATION_ID_HEADER);
         if (correlationId == null || correlationId.isBlank()) {
             correlationId = UUID.randomUUID().toString();

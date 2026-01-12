@@ -16,17 +16,14 @@ public class BookingEventConsumer {
 
     @RabbitListener(queues = "${rabbitmq.queue.name}")
     public void consumeBookingEvent(BookingCreatedEvent event) {
-        log.info("========================================");
-        log.info("🔔 EMAIL GÖNDERİLİYOR: {} için", event.getUserEmail());
-        log.info("Booking ID: {}", event.getBookingId());
-        log.info("========================================");
+        log.info("Received booking event for user: {}", event.getUserEmail());
 
         try {
             notificationService.processBookingNotification(event);
-            log.info("✅ Email başarıyla gönderildi!");
+            log.info("Notification processed for booking: {}", event.getBookingId());
 
         } catch (Exception e) {
-            log.error("❌ Email gönderimi başarısız: {}", e.getMessage(), e);
+            log.error("Notification processing failed: {}", e.getMessage());
         }
     }
 }

@@ -4,13 +4,11 @@ import com.yeditepe.eventservice.dto.EventRequest;
 import com.yeditepe.eventservice.dto.EventResponse;
 import com.yeditepe.eventservice.dto.StockResponse;
 import com.yeditepe.eventservice.service.EventService;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -26,21 +24,11 @@ public class EventController {
 
     // GET /events?category=...&venue=...&from=...&to=...
     @GetMapping
-    public ResponseEntity<List<EventResponse>> getAllEvents(
-            @RequestParam(name = "category", required = false) String category,
-            @RequestParam(name = "venue", required = false) String venue,
-            @RequestParam(name = "from", required = false)
-            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-            LocalDateTime from,
-            @RequestParam(name = "to", required = false)
-            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-            LocalDateTime to) {
-
-        List<EventResponse> events =
-                eventService.getAllEvents();
+    public ResponseEntity<List<EventResponse>> getAllEvents() {
+        List<EventResponse> events = eventService.getAllEvents();
         return ResponseEntity.ok(events);
     }
-//ab5566
+
     // GET /events/{id}
     @GetMapping("/{id}")
     public ResponseEntity<EventResponse> getEventById(@PathVariable(name = "id") String id) {
@@ -79,7 +67,7 @@ public class EventController {
     public ResponseEntity<StockResponse> checkStock(@PathVariable(name = "id") String id) {
         Integer availableSeats = eventService.getAvailableSeats(id);
         boolean hasStock = eventService.checkStock(id);
-        
+
         return ResponseEntity.ok(new StockResponse(id, availableSeats, hasStock));
     }
 

@@ -16,21 +16,22 @@ public class SecurityConfig {
 
         private final AuthTokenFilter authTokenFilter;
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
+        @Bean
+        public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+                http
+                                .csrf(csrf -> csrf.disable())
+                                .authorizeHttpRequests(auth -> auth
+                                                .requestMatchers("/api/auth/**").permitAll()
+                                                .requestMatchers("/api/users/{id}/validate").permitAll()
+                                                .requestMatchers("/api/users/**").hasRole("ADMIN")
+                                                .anyRequest().authenticated())
+                                // JWT kullanacağımız için oturum yönetimini STATELESS yapıyoruz
+                                .sessionManagement(session -> session
+                                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
-                // JWT kullanacağımız için oturum yönetimini STATELESS yapıyoruz
-                .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                );
+                // JWT filterini UsernamePasswordAuthenticationFilter'tan önce ekleyelim
+                http.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
-        // JWT filterini UsernamePasswordAuthenticationFilter'tan önce ekleyelim
-        http.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
-
-        return http.build();
-    }
-
+                return http.build();
+        }
 }

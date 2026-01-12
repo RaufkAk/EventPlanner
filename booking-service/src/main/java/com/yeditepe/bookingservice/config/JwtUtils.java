@@ -1,4 +1,4 @@
-package com.yeditepe.config;
+package com.yeditepe.bookingservice.config;
 
 import jakarta.annotation.PostConstruct;
 import io.jsonwebtoken.*;
@@ -8,16 +8,14 @@ import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
-import java.util.Date;
+import java.util.List;
+import java.util.Collections;
 
 @Component
 public class JwtUtils {
 
     @Value("${jwt.secret:YeditepeEventPlannerProjectSecretKey2025VerySecure}")
     private String jwtSecret;
-
-    @Value("${jwt.expiration.ms:86400000}")
-    private int jwtExpirationMs;
 
     private Key key;
 
@@ -27,34 +25,6 @@ public class JwtUtils {
     }
 
     public JwtUtils() {
-    }
-
-    public String generateJwtToken(String username,
-            java.util.Collection<? extends org.springframework.security.core.GrantedAuthority> authorities) {
-        java.util.List<String> roles = authorities.stream()
-                .map(item -> item.getAuthority())
-                .collect(java.util.stream.Collectors.toList());
-
-        return Jwts.builder()
-                .setSubject(username)
-                .claim("roles", roles)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
-                .signWith(key, SignatureAlgorithm.HS256)
-                .compact();
-    }
-
-    public java.util.List<String> getRolesFromJwtToken(String token) {
-        try {
-            Claims claims = Jwts.parserBuilder()
-                    .setSigningKey(key)
-                    .build()
-                    .parseClaimsJws(token)
-                    .getBody();
-            return (java.util.List<String>) claims.get("roles");
-        } catch (Exception ex) {
-            return java.util.Collections.emptyList();
-        }
     }
 
     public String getUserNameFromJwtToken(String token) {
@@ -67,6 +37,20 @@ public class JwtUtils {
             return claims.getSubject();
         } catch (Exception ex) {
             return null;
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<String> getRolesFromJwtToken(String token) {
+        try {
+            Claims claims = Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+            return (List<String>) claims.get("roles");
+        } catch (Exception ex) {
+            return Collections.emptyList();
         }
     }
 

@@ -37,9 +37,7 @@ public class BookingService {
     @Transactional
     public BookingResponse createBooking(BookingRequest request, String authorizationHeader) {
         log.info("Creating booking for user: {} and event: {}", request.getUserId(), request.getEventId());
-        
-        // Skip user validation for dev mode
-        /*
+
         try {
             Boolean userValid = userServiceClient.validateUser(request.getUserId(), authorizationHeader);
             if (!userValid) {
@@ -49,8 +47,7 @@ public class BookingService {
             log.error("User validation failed: {}", e.getMessage());
             throw new RuntimeException("User service unavailable or user invalid");
         }
-        */
-        log.info("User validation skipped for dev mode");
+        log.info("User validation successful for user: {}", request.getUserId());
 
         EventStockResponse stockResponse;
         try {
@@ -85,16 +82,16 @@ public class BookingService {
         // Process payment BEFORE confirming booking
         try {
             PaymentRequest paymentRequest = new PaymentRequest(
-                savedBooking.getId(),
-                BigDecimal.valueOf(100.0)
-            );
+                    savedBooking.getId(),
+                    BigDecimal.valueOf(100.0));
             log.info("Processing payment for booking: {}", savedBooking.getId());
             PaymentResponse paymentResponse = paymentServiceClient.processPayment(paymentRequest);
-            
+
             // In dev mode, accept payment if response is not null (regardless of status)
             // In production, check for COMPLETED status strictly
             if (paymentResponse != null) {
-                log.info("Payment processed for booking: {} (Status: {})", savedBooking.getId(), paymentResponse.getStatus());
+                log.info("Payment processed for booking: {} (Status: {})", savedBooking.getId(),
+                        paymentResponse.getStatus());
                 // Payment successful (or in dev mode) - confirm booking
                 savedBooking.setStatus(BookingStatus.CONFIRMED);
                 savedBooking = bookingRepository.save(savedBooking);
@@ -115,16 +112,16 @@ public class BookingService {
             try {
                 // Build event with all required notification data
                 BookingCreatedEvent event = BookingCreatedEvent.builder()
-                    .bookingId(savedBooking.getId())
-                    .userId(savedBooking.getUserId())
-                    .userEmail("user" + savedBooking.getUserId() + "@eventplanner.com") // Placeholder
-                    .eventId(savedBooking.getEventId())
-                    .eventTitle("Event " + savedBooking.getEventId()) // Placeholder
-                    .seatCount(1)
-                    .status(savedBooking.getStatus().name())
-                    .bookingDate(savedBooking.getBookingDate())
-                    .build();
-                
+                        .bookingId(savedBooking.getId())
+                        .userId(savedBooking.getUserId())
+                        .userEmail("user" + savedBooking.getUserId() + "@eventplanner.com") // Placeholder
+                        .eventId(savedBooking.getEventId())
+                        .eventTitle("Event " + savedBooking.getEventId()) // Placeholder
+                        .seatCount(1)
+                        .status(savedBooking.getStatus().name())
+                        .bookingDate(savedBooking.getBookingDate())
+                        .build();
+
                 log.info("Publishing booking confirmation event to RabbitMQ: {}", savedBooking.getId());
                 eventPublisher.publishBookingCreatedEvent(event);
             } catch (Exception e) {
@@ -175,20 +172,20 @@ public class BookingService {
     @Transactional
     public BookingResponse confirmBooking(Long id) {
         Booking booking = bookingRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Booking not found with id: " + id));
+                .orElseThrow(() -> new RuntimeException("Booking not found with id: " + id));
         booking.setStatus(BookingStatus.CONFIRMED);
         Booking updatedBooking = bookingRepository.save(booking);
-        
+
         return mapToResponse(updatedBooking);
     }
 
     @Transactional
     public BookingResponse cancelBooking(Long id) {
         Booking booking = bookingRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Booking not found with id: " + id));
+                .orElseThrow(() -> new RuntimeException("Booking not found with id: " + id));
         booking.setStatus(BookingStatus.CANCELLED);
         Booking updatedBooking = bookingRepository.save(booking);
-        
+
         return mapToResponse(updatedBooking);
     }
 
@@ -205,7 +202,6 @@ public class BookingService {
                 booking.getUserId(),
                 booking.getEventId(),
                 booking.getStatus(),
-                booking.getBookingDate()
-        );
+                booking.getBookingDate());
     }
 }

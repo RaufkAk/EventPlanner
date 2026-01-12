@@ -11,13 +11,10 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@lombok.RequiredArgsConstructor
 public class EventService {
 
     private final EventRepository eventRepository;
-
-    public EventService(EventRepository eventRepository) {
-        this.eventRepository = eventRepository;
-    }
 
     public List<EventResponse> getAllEvents() {
         return eventRepository.findAll().stream()
@@ -78,11 +75,11 @@ public class EventService {
     public boolean reserveSeat(String eventId) {
         Event event = eventRepository.findById(eventId)
                 .orElseThrow(() -> new RuntimeException("Event not found with id: " + eventId));
-        
+
         if (event.getAvailableSeats() == null || event.getAvailableSeats() <= 0) {
             return false;
         }
-        
+
         event.setAvailableSeats(event.getAvailableSeats() - 1);
         eventRepository.save(event);
         return true;
@@ -91,11 +88,11 @@ public class EventService {
     public boolean releaseSeat(String eventId) {
         Event event = eventRepository.findById(eventId)
                 .orElseThrow(() -> new RuntimeException("Event not found with id: " + eventId));
-        
+
         if (event.getAvailableSeats() == null) {
             event.setAvailableSeats(0);
         }
-        
+
         event.setAvailableSeats(event.getAvailableSeats() + 1);
         eventRepository.save(event);
         return true;
@@ -107,7 +104,6 @@ public class EventService {
                 e.getTitle(),
                 e.getDate(),
                 e.getAvailableSeats(),
-                e.getPrice()
-        );
+                e.getPrice());
     }
 }
