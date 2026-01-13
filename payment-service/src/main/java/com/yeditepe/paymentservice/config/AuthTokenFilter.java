@@ -41,6 +41,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
                     List<String> roles = jwtUtils.getRolesFromJwtToken(token);
 
                     List<SimpleGrantedAuthority> authorities = roles.stream()
+                            .map(r -> r.startsWith("ROLE_") ? r : "ROLE_" + r)
                             .map(SimpleGrantedAuthority::new)
                             .collect(Collectors.toList());
 

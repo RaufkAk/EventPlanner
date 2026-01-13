@@ -1,7 +1,6 @@
 package com.yeditepe.controller;
 
 import com.yeditepe.dto.UserProfile;
-import com.yeditepe.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,17 +10,17 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserRepository userRepository;
+    private final com.yeditepe.service.UserService userService;
 
     @GetMapping("/{id}/validate")
     public ResponseEntity<Boolean> validateUser(@PathVariable("id") Long id) {
-        boolean exists = userRepository.existsById(id);
+        boolean exists = userService.existsById(id);
         return ResponseEntity.ok(exists);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getUserById(@PathVariable("id") Long id) {
-        return userRepository.findById(id)
+        return userService.getUserById(id)
                 .map(user -> ResponseEntity.ok(new UserProfile(
                         user.getUsername(),
                         user.getEmail(),

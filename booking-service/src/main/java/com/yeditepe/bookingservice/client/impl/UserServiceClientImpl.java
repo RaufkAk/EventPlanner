@@ -14,7 +14,7 @@ public class UserServiceClientImpl implements UserServiceClient {
 
     private final RestTemplate restTemplate;
 
-    @Value("${services.user.base:http://localhost:8081}")
+    @Value("${app.services.user.url:http://localhost:8081}")
     private String userBaseUrl;
 
     public UserServiceClientImpl(RestTemplate restTemplate) {
@@ -33,8 +33,7 @@ public class UserServiceClientImpl implements UserServiceClient {
                 org.springframework.http.HttpMethod.GET,
                 entity,
                 Boolean.class,
-                userId
-        );
+                userId);
         return resp.getBody();
     }
 }

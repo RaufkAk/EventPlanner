@@ -35,6 +35,8 @@ public class JwtUtils {
                 .map(item -> item.getAuthority())
                 .collect(java.util.stream.Collectors.toList());
 
+        System.out.println("Generating JWT for user: " + username + " with roles: " + roles);
+
         return Jwts.builder()
                 .setSubject(username)
                 .claim("roles", roles)

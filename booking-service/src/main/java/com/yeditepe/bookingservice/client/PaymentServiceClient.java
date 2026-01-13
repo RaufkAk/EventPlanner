@@ -5,10 +5,11 @@ import com.yeditepe.bookingservice.dto.PaymentResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 @FeignClient(name = "payment-service")
 public interface PaymentServiceClient {
-    
+
     @PostMapping("/api/payments/process")
-    PaymentResponse processPayment(@RequestBody PaymentRequest request);
+    PaymentResponse processPayment(@RequestBody PaymentRequest request, @RequestHeader("Authorization") String token);
 }

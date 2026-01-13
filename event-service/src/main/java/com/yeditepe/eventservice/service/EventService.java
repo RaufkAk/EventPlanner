@@ -30,8 +30,13 @@ public class EventService {
 
     public EventResponse createEvent(EventRequest request) {
         Event event = new Event();
+        // MongoDB generates String IDs automatically, but if we want to enforce UUIDs:
+        // Or let Mongo handle it. If we set it, Mongo uses it.
         event.setId(UUID.randomUUID().toString());
+
         event.setTitle(request.getTitle());
+        event.setDescription(request.getDescription());
+        event.setLocation(request.getLocation());
         event.setDate(request.getDate());
         event.setAvailableSeats(request.getAvailableSeats());
         event.setPrice(request.getPrice());
@@ -45,6 +50,8 @@ public class EventService {
                 .orElseThrow(() -> new RuntimeException("Event not found with id: " + id));
 
         event.setTitle(request.getTitle());
+        event.setDescription(request.getDescription());
+        event.setLocation(request.getLocation());
         event.setDate(request.getDate());
         event.setAvailableSeats(request.getAvailableSeats());
         event.setPrice(request.getPrice());
@@ -102,6 +109,8 @@ public class EventService {
         return new EventResponse(
                 e.getId(),
                 e.getTitle(),
+                e.getDescription(),
+                e.getLocation(),
                 e.getDate(),
                 e.getAvailableSeats(),
                 e.getPrice());

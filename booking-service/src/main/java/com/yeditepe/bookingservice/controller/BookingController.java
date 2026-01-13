@@ -48,9 +48,8 @@ public class BookingController {
     }
 
     @GetMapping("/event/{eventId}")
-    public ResponseEntity<List<BookingResponse>> getBookingsByEventId(@PathVariable String eventId) {
+    public ResponseEntity<List<BookingResponse>> getBookingsByEventId(@PathVariable("eventId") String eventId) {
         List<BookingResponse> bookings = bookingService.getBookingsByEventId(eventId);
         return ResponseEntity.ok(bookings);
     }
 }
-

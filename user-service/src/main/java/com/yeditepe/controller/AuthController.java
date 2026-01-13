@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,17 +30,7 @@ public class AuthController {
 
         @PostMapping("/register")
         public ResponseEntity<?> registerUser(@RequestBody RegisterRequest registerRequest) {
-                User user = User.builder()
-                                .firstName(registerRequest.getFirstName())
-                                .lastName(registerRequest.getLastName())
-                                .username(registerRequest.getUsername())
-                                .password(registerRequest.getPassword())
-                                .email(registerRequest.getEmail())
-                                .roles(registerRequest.getRoles() != null && !registerRequest.getRoles().isEmpty()
-                                                ? registerRequest.getRoles()
-                                                : Collections.singleton("USER"))
-                                .build();
-                User savedUser = userService.registerUser(user);
+                User savedUser = userService.registerUser(registerRequest);
                 return ResponseEntity.ok("Kullanıcı başarıyla kaydedildi: " + savedUser.getUsername());
         }
 

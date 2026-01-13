@@ -61,7 +61,7 @@ public class BookingService {
         }
 
         try {
-            Boolean reserved = eventServiceClient.reserveSeat(request.getEventId());
+            Boolean reserved = eventServiceClient.reserveSeat(request.getEventId(), authorizationHeader);
             if (!reserved) {
                 throw new RuntimeException("Seat reservation failed");
             }
@@ -85,20 +85,26 @@ public class BookingService {
                     savedBooking.getId(),
                     BigDecimal.valueOf(100.0));
             log.info("Processing payment for booking: {}", savedBooking.getId());
-            PaymentResponse paymentResponse = paymentServiceClient.processPayment(paymentRequest);
+            PaymentResponse paymentResponse = paymentServiceClient.processPayment(paymentRequest, authorizationHeader);
 
             // In dev mode, accept payment if response is not null (regardless of status)
             // In production, check for COMPLETED status strictly
-            if (paymentResponse != null) {
+            if (paymentResponse != null && "COMPLETED".equals(paymentResponse.getStatus())) {
                 log.info("Payment processed for booking: {} (Status: {})", savedBooking.getId(),
                         paymentResponse.getStatus());
-                // Payment successful (or in dev mode) - confirm booking
+                // Payment successful - confirm booking
                 savedBooking.setStatus(BookingStatus.CONFIRMED);
                 savedBooking = bookingRepository.save(savedBooking);
                 log.info("Booking status updated to CONFIRMED: {}", savedBooking.getId());
             } else {
-                log.warn("Payment response is null, keeping booking as PENDING");
-                // Payment failed - keep booking as PENDING, don't send notification
+                log.warn("Payment response indicates failure or is null. Status: {}",
+                        paymentResponse != null ? paymentResponse.getStatus() : "NULL");
+
+                // Payment failed - Cancel the booking
+                savedBooking.setStatus(BookingStatus.CANCELLED);
+                savedBooking = bookingRepository.save(savedBooking);
+                log.info("Booking cancelled due to payment failure: {}", savedBooking.getId());
+
                 return mapToResponse(savedBooking);
             }
         } catch (Exception e) {
@@ -137,10 +143,10 @@ public class BookingService {
     }
 
     @Transactional
-    protected void rollbackBooking(Booking booking) {
+    protected void rollbackBooking(Booking booking, String authorizationHeader) {
         log.warn("Rolling back booking: {}", booking.getId());
         try {
-            eventServiceClient.releaseSeat(booking.getEventId());
+            eventServiceClient.releaseSeat(booking.getEventId(), authorizationHeader);
             booking.setStatus(BookingStatus.CANCELLED);
             bookingRepository.save(booking);
             log.info("Booking rollback completed: {}", booking.getId());

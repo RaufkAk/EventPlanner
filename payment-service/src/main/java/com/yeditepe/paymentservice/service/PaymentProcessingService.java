@@ -12,23 +12,25 @@ import java.util.Random;
 @RequiredArgsConstructor
 @Slf4j
 public class PaymentProcessingService {
-    
+
     private static final Random random = new Random();
-    
+
     /**
      * Simulates payment processing through a payment gateway
      * In a real scenario, this would integrate with Stripe, PayPal, etc.
      */
     public boolean processPayment(Payment payment, PaymentRequestDTO paymentRequest) {
         log.info("Processing payment through gateway for transaction: {}", payment.getTransactionId());
-        
+        log.info(">>> SIMULATION MODE: 50% Success Rate <<<");
+
         try {
             // Validate payment request
             validatePaymentRequest(paymentRequest);
-            
+
             // Simulate payment gateway call (80% success rate for demo)
-            boolean isSuccessful = random.nextDouble() < 0.80;
-            
+            // Simulate payment gateway call (50% success rate for demo)
+            boolean isSuccessful = random.nextDouble() < 0.50;
+
             if (isSuccessful) {
                 log.info("Payment gateway approved transaction: {}", payment.getTransactionId());
                 return true;
@@ -41,18 +43,14 @@ public class PaymentProcessingService {
             return false;
         }
     }
-    
+
     private void validatePaymentRequest(PaymentRequestDTO paymentRequest) {
         if (paymentRequest.getBookingId() == null || paymentRequest.getBookingId() <= 0) {
             throw new IllegalArgumentException("Invalid booking ID");
         }
-        
+
         if (paymentRequest.getAmount() == null || paymentRequest.getAmount().signum() <= 0) {
             throw new IllegalArgumentException("Invalid payment amount");
-        }
-        
-        if (paymentRequest.getPaymentMethod() == null) {
-            throw new IllegalArgumentException("Payment method is required");
         }
     }
 }

@@ -23,6 +23,7 @@ public class SecurityConfig {
                                 .authorizeHttpRequests(auth -> auth
                                                 .requestMatchers("/api/auth/**").permitAll()
                                                 .requestMatchers("/api/users/{id}/validate").permitAll()
+                                                .requestMatchers("/error").permitAll()
                                                 .requestMatchers("/api/users/**").hasRole("ADMIN")
                                                 .anyRequest().authenticated())
                                 // JWT kullanacağımız için oturum yönetimini STATELESS yapıyoruz

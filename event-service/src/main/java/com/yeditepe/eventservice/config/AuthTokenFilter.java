@@ -29,6 +29,10 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         try {
             String header = request.getHeader("Authorization");
+            if (header != null) {
+                System.out.println("Auth Filter: Authorization header found");
+            }
+
             String token = null;
             if (header != null && header.startsWith("Bearer ")) {
                 token = header.substring(7);
@@ -36,22 +40,34 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
             if (token != null) {
                 boolean valid = jwtUtils.validateJwtToken(token);
+                System.out.println("Auth Filter: Token valid: " + valid);
+
                 if (valid) {
                     String username = jwtUtils.getUserNameFromJwtToken(token);
                     List<String> roles = jwtUtils.getRolesFromJwtToken(token);
+                    System.out.println("Auth Filter: User: " + username + ", Roles: " + roles);
 
-                    List<SimpleGrantedAuthority> authorities = roles.stream()
-                            .map(SimpleGrantedAuthority::new)
-                            .collect(Collectors.toList());
+                    if (roles != null) {
+                        List<SimpleGrantedAuthority> authorities = roles.stream()
+                                .map(r -> {
+                                    // Remove any existing ROLE_ prefix before adding it correctly
+                                    String cleanRole = r.replace("ROLE_", "");
+                                    return new SimpleGrantedAuthority("ROLE_" + cleanRole);
+                                })
+                                .collect(Collectors.toList());
 
-                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                            username, null, authorities);
-                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                                username, null, authorities);
+                        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                        SecurityContextHolder.getContext().setAuthentication(authentication);
+                        System.out.println("Auth Filter: SecurityContext updated with authorities: " + authorities);
+                    } else {
+                        System.out.println("Auth Filter: No roles found in token");
+                    }
                 }
             }
         } catch (Exception ex) {
-            // ignore and continue filter chain
+            System.err.println("Auth Filter Error: " + ex.getMessage());
         }
 
         filterChain.doFilter(request, response);
